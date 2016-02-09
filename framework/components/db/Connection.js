@@ -2,7 +2,7 @@ var knex = require('knex');
 
 class Connection {
     constructor(config) {
-        this._db = require('knex')({
+        this._db = knex({
             client: config.client,
             connection: {
                 host: config.connection.host,

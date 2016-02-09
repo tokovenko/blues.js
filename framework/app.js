@@ -1,5 +1,6 @@
 var router =  require('./components/routing/RouteManager');
 var dbConnection =  require('./components/db/Connection');
+var mailer =  require('./components/mailer/Mail');
 
 class app {
     static setExpress(express) {
@@ -21,6 +22,7 @@ class app {
     static init() {
         this.addComponent('router', new router(this.express, this._config.component.routeManager.routes || []));
         this.addComponent('db', (new dbConnection(this._config.component.db)).getDb());
+        this.addComponent('mail', (new mailer(this._config.mailer)));
 
         this.express.set('view engine', 'jade');
         console.log('initialised aplication...');
