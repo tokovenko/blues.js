@@ -15,7 +15,8 @@
   "dependencies": {
     "express": "^4.13.4",
     "jade": "^1.11.0",
-    "knex": "^0.9.0"
+    "knex": "^0.9.0",
+    "pg": "^4.4.4"
   },
   "bugs": {
     "url": "https://github.com/tokovenko/blues.js/issues"
