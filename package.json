@@ -1,7 +1,7 @@
 {
-  "name": "blues.js",
+  "name": "blues",
   "version": "0.0.1",
-  "description": "MVC Framework for Node.js (ES6)",
+  "description": "Blues.js: MVC Framework for Node.js (ES6)",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
