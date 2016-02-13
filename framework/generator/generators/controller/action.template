@@ -1,0 +1,4 @@
+
+    {action}Action(req, res) {
+        res.render('{controller}/{action}');
+    }
