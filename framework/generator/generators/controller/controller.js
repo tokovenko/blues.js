@@ -1,4 +1,4 @@
-var Generator  = require('./../../../base/Gener');
+var Generator  = require('./../../../base/BaseGenerator');
 
 class ControllerGenerator extends Generator {
 
