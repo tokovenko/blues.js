@@ -1,4 +1,4 @@
-var Generator  = require('./../../../base/BaseGenerator');
+var Generator  = require('./../../base/BaseGenerator');
 
 class ModelGenerator extends Generator {
 
@@ -9,7 +9,7 @@ class ModelGenerator extends Generator {
     generate() {
         let promise = new Promise((resolve, reject) => {
             let ucfirstName = this.getUcfirst(this.name);
-            let file = `./../blues.js/framework/generator/generators/model/model.template`;
+            let file = `./../blues.js/framework/generators/model/model.template`;
             let loadFile = this.loadFile(file);
 
             loadFile.then(data => {

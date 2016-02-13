@@ -1,4 +1,4 @@
-var Generator  = require('./../../../base/BaseGenerator');
+var Generator  = require('./../../base/BaseGenerator');
 
 class ControllerGenerator extends Generator {
 
@@ -10,9 +10,9 @@ class ControllerGenerator extends Generator {
         let promise = new Promise((resolve, reject) => {
             let ucfirstName = this.getUcfirst(this.name);
 
-            let file = `./../blues.js/framework/generator/generators/controller/controller.template`;
+            let file = `./../blues.js/framework/generators/controller/controller.template`;
             let loadController = this.loadFile(file);
-            let actionFile = `./../blues.js/framework/generator/generators/controller/action.template`;
+            let actionFile = `./../blues.js/framework/generators/controller/action.template`;
             let loadAction = this.loadFile(actionFile)
 
             Promise.all([loadController, loadAction]).then(data => {
