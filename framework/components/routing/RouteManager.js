@@ -10,11 +10,13 @@ class RouteManager {
             if (typeof action == 'function') {
                 app.get(rule, action);
             } else {
-                let [controllerName, actionName] = action.trim().split(':');
-                let fullControllerName = controllerName.charAt(0).toUpperCase() + controllerName.slice(1);
-                let controller = require(path.resolve('./controllers/', `${fullControllerName}Controller.js`));
-                let controllerInstance = new controller;
-                app.get(rule, controllerInstance[`${actionName}Action`]);
+                app.get(rule, function(req, res) {
+                    let [controllerName, actionName] = action.trim().split(':');
+                    let fullControllerName = controllerName.charAt(0).toUpperCase() + controllerName.slice(1);
+                    let controller = require(path.resolve('./controllers/', `${fullControllerName}Controller.js`));
+                    let controllerInstance = new controller;
+                    controllerInstance.runAction(actionName, req, res);
+                });
             }
         });
     }
