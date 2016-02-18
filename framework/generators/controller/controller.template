@@ -1,4 +1,6 @@
-class {controller}Controller {
+var Controller = require('./../../blues.js/framework/base/Controller');
+
+class {controller}Controller extends Controller {
     {actions}
 }
 
