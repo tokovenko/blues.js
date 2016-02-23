@@ -1,6 +1,7 @@
 var router =  require('./components/routing/RouteManager');
 var dbConnection =  require('./components/db/Connection');
 var mailer =  require('./components/mailer/Mail');
+var path =  require('path');
 
 class app {
     static setExpress(express) {
@@ -34,6 +35,11 @@ class app {
         });
     }
 
+    static include(module) {
+        return require('./' + module);
+    }
 }
+
+global.app = app;
 
 module.exports = app;

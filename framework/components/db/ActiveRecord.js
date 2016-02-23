@@ -1,5 +1,4 @@
-var Model = require('./../../base/Model');
-var app = require('./../../app');
+var Model = app.include('base/Model');
 
 class ActiveRecord extends Model {
 

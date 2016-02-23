@@ -1,5 +1,4 @@
-var app = require('./../app');
-var Component = require('./Component');
+var Component = app.include('base/Component');
 
 class Controller extends Component {
 

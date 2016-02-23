@@ -1,4 +1,4 @@
-var Event = require('./Event');
+var Event = app.include('base/Event');
 
 class ModelEvent extends Event {
 

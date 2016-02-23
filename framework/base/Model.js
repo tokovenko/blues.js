@@ -1,5 +1,5 @@
-var Component = require('./Component');
-var ModelEvent = require('./ModelEvent');
+var Component = app.include('base/Component');
+var ModelEvent = app.include('base/ModelEvent');
 
 const EVENT_BEFORE_VALIDATE = 'beforeValidate';
 const EVENT_AFTER_VALIDATE = 'afterValidate';
