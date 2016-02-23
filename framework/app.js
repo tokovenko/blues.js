@@ -4,28 +4,22 @@ var mailer =  require('./components/mailer/Mail');
 
 class app {
     static setExpress(express) {
-        this._express = express;
+        this.express = express;
         return this;
-    }
-    static get express() {
-        return this._express;
     }
 
     static setConfig(config) {
-        this._config = config;
+        this.config = config;
         return this;
-    }
-    static get config() {
-        return this._config;
     }
 
     static init() {
-        this.addComponent('router', new router(this.express, this._config.component.routeManager.routes || []));
-        this.addComponent('db', (new dbConnection(this._config.component.db)).getDb());
-        this.addComponent('mail', (new mailer(this._config.mailer)));
+        this.addComponent('router', new router(this.express, this.config.component.routeManager.routes || []));
+        this.addComponent('db', (new dbConnection(this.config.component.db)).getDb());
+        this.addComponent('mail', (new mailer(this.config.mailer)));
 
         this.express.set('view engine', 'jade');
-        console.log('initialised aplication...');
+        //console.log('initialised aplication...');
 
         return this;
     }

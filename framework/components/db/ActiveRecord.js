@@ -13,7 +13,7 @@ class ActiveRecord extends Model {
     static findOne(condition, asArray) {
         let promise = new Promise((resolve, reject) => {
             let sql = this.findByCondition(condition, asArray).limit(1);
-            console.log(sql.toString());
+            //console.log(sql.toString());
             sql
                 .then(raws => {
                     resolve(raws.length > 0 ? (new this(raws[0])) : [])
