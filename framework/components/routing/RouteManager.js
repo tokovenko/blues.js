@@ -8,24 +8,26 @@ class RouteManager {
 
         Object.keys(this._rules).map(rule => {
             let action = this._rules[rule];
-            if (typeof action == 'function') {
-                express.get(rule, action);
-            } else {
-                express.get(rule, function(req, res) {
-                    try {
-                        app.response = res;
-                        app.request = req;
 
+            express.get(rule, function(req, res) {
+                try {
+                    app.response = res;
+                    app.request = req;
+
+                    if (typeof action == 'function') {
+                        action(req, res);
+                    } else {
                         let [controllerName, actionName] = action.trim().split(':');
                         let fullControllerName = controllerName.charAt(0).toUpperCase() + controllerName.slice(1);
                         let controller = require(path.resolve('./controllers/', `${fullControllerName}Controller.js`));
                         let controllerInstance = new controller;
                         controllerInstance.runAction(actionName, req, res);
-                    } catch(exception) {
-                        ExceptionHandler.addException(exception);
                     }
-                });
-            }
+
+                } catch(exception) {
+                    ExceptionHandler.addException(exception);
+                }
+            });
         });
     }
 
