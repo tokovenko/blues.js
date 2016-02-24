@@ -33,7 +33,7 @@ class Generator {
         let promise = new Promise((resolve, reject) => {
             fileSystem.writeFile(this.getNameFileForSave(), this.content, function(err) {
                 if (err) throw err;
-                console.log('controller created!');
+                console.log('file(s) created!');
             });
         });
     }
