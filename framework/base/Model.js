@@ -9,6 +9,7 @@ class Model extends Component {
     constructor(attributes) {
         super();
         this.attributes = attributes || [];
+        this.isValid = true;
     }
 
     static get EVENT_BEFORE_VALIDATE() {
@@ -23,6 +24,9 @@ class Model extends Component {
         return [];
     }
 
+    get validators() {
+        return [];
+    }
 
     set attributes(attributes) {
         this._attributes = [];
@@ -42,9 +46,43 @@ class Model extends Component {
             return false;
         }
 
-        console.log('validation...');
+        this.isValid = true;
+
+        if(this.validators) {
+            let validators = {};
+            this.validators.map(item => {
+                if(item.attrs && item.validator) {
+
+                    let validator;
+
+                    if(validators[item.validator]) {
+                        validator = validators[item.validator];
+                    } else {
+                        if(typeof item.validator == 'string') {
+                            validator = require(`validator/lib/${item.validator}`);
+                            validators[item.validator] = validator;
+                        } else {
+                            validator = validators[item.validator];
+                        }
+                    }
+
+                    item.attrs.map((attr) => {
+                        try {
+                            if(!validator(this[attr] + '')) {
+                                this.isValid = false;
+                            }
+                        } catch(error) {
+                            this.isValid = false;
+                        }
+                    });
+
+                }
+            });
+        }
 
         this.afterValidate();
+
+        return this.isValid;
     }
 
     beforeValidate() {
