@@ -9,6 +9,7 @@ class Model extends Component {
     constructor(attributes) {
         super();
         this.attributes = attributes || [];
+        this.errors = [];
         this.isValid = true;
     }
 
@@ -28,6 +29,26 @@ class Model extends Component {
         return [];
     }
 
+    addError(attr, error) {
+        if(!this.errors[attr]) {
+            this.errors[attr] = [];
+        }
+
+        this.errors[attr].push(error);
+    }
+
+    clearErrors() {
+        this.errors = [];
+    }
+
+    getErrors(attr) {
+        return attr ? this.errors[attr] : this.errors;
+    }
+
+    hasErrors(attr) {
+        return Object.keys(this.errors).length > 0;
+    }
+
     set attributes(attributes) {
         this._attributes = [];
         this.safeAttributes.map(attribute => {
@@ -42,6 +63,8 @@ class Model extends Component {
 
     validate()
     {
+        this.clearErrors();
+
         if (!this.beforeValidate()) {
             return false;
         }
@@ -67,12 +90,9 @@ class Model extends Component {
                     }
 
                     item.attrs.map((attr) => {
-                        try {
-                            if(!validator(this[attr] + '')) {
-                                this.isValid = false;
-                            }
-                        } catch(error) {
+                        if(!validator(this[attr] + '', item.params || {})) {
                             this.isValid = false;
+                            this.addError(attr, this[attr].length + ' is invalide...');
                         }
                     });
 
@@ -94,14 +114,6 @@ class Model extends Component {
     afterValidate() {
         this.trigger(EVENT_AFTER_VALIDATE);
     }
-
-    // addError()	Adds a new error to the specified attribute.
-    // addErrors()	Adds a list of errors.
-    // clearErrors()	Removes errors for all attributes or a single attribute.
-    // getErrors()	Returns the errors for all attribute or a single attribute.
-    // getFirstError()	Returns the first error of the specified attribute.
-    // hasErrors()	Returns a value indicating whether there is any validation error.
-    // rules()	Returns the validation rules for attributes.
 }
 
 module.exports = Model;
