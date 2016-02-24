@@ -21,6 +21,8 @@ class app {
     }
 
     static init() {
+        this.response = null;
+        this.request = null;
         try {
             this.addComponent('db', (new dbConnection(this.config.component.db)).getDb());
             this.addComponent('mail', (new mailer(this.config.mailer)));

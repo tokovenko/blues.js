@@ -1,21 +1,29 @@
 var path = require("path");
+var ExceptionHandler =  include('base/ExceptionHandler');
 
 class RouteManager {
 
-    constructor(app, rules) {
+    constructor(express, rules) {
         this._rules = rules || [];
 
         Object.keys(this._rules).map(rule => {
             let action = this._rules[rule];
             if (typeof action == 'function') {
-                app.get(rule, action);
+                express.get(rule, action);
             } else {
-                app.get(rule, function(req, res) {
-                    let [controllerName, actionName] = action.trim().split(':');
-                    let fullControllerName = controllerName.charAt(0).toUpperCase() + controllerName.slice(1);
-                    let controller = require(path.resolve('./controllers/', `${fullControllerName}Controller.js`));
-                    let controllerInstance = new controller;
-                    controllerInstance.runAction(actionName, req, res);
+                express.get(rule, function(req, res) {
+                    try {
+                        app.response = res;
+                        app.request = req;
+
+                        let [controllerName, actionName] = action.trim().split(':');
+                        let fullControllerName = controllerName.charAt(0).toUpperCase() + controllerName.slice(1);
+                        let controller = require(path.resolve('./controllers/', `${fullControllerName}Controller.js`));
+                        let controllerInstance = new controller;
+                        controllerInstance.runAction(actionName, req, res);
+                    } catch(exception) {
+                        ExceptionHandler.addException(exception);
+                    }
                 });
             }
         });

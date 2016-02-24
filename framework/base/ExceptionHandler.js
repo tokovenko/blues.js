@@ -3,12 +3,13 @@ var NotFoundHttpException =  include('exceptions/NotFoundHttpException');
 
 class ExceptionHandler {
     static addException(exception) {
+        let info = '';
         if(exception instanceof HttpException) {
-            console.log('send http response with error info...')
+            info = 'send http response with error info...';
         } else {
-            console.log(exception.message);
-            console.log(exception.stack);
+            info = exception.message + "\n" + exception.stack;
         }
+        app.response ? app.response.send(info) : console.log(info);
     }
 }
 
