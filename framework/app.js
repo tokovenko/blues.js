@@ -1,7 +1,13 @@
-var router =  require('./components/routing/RouteManager');
-var dbConnection =  require('./components/db/Connection');
-var mailer =  require('./components/mailer/Mail');
+global.include = function include(module) {
+   return require('./' + module);
+};
+
 var path =  require('path');
+
+var router =  include('components/routing/RouteManager');
+var dbConnection =  include('components/db/Connection');
+var mailer =  include('components/mailer/Mail');
+var ExceptionHandler =  include('base/ExceptionHandler');
 
 class app {
     static setExpress(express) {
@@ -15,11 +21,16 @@ class app {
     }
 
     static init() {
-        this.addComponent('router', new router(this.express, this.config.component.routeManager.routes || []));
-        this.addComponent('db', (new dbConnection(this.config.component.db)).getDb());
-        this.addComponent('mail', (new mailer(this.config.mailer)));
+        try {
+            this.addComponent('db', (new dbConnection(this.config.component.db)).getDb());
+            this.addComponent('mail', (new mailer(this.config.mailer)));
 
-        this.express.set('view engine', 'jade');
+            this.addComponent('router', new router(this.express, this.config.component.routeManager.routes || []));
+
+            this.express.set('view engine', 'jade');
+        } catch(exception) {
+            ExceptionHandler.addException(exception);
+        }
         //console.log('initialised aplication...');
 
         return this;
@@ -36,7 +47,7 @@ class app {
     }
 
     static include(module) {
-        return require('./' + module);
+        return include(module);
     }
 }
 
